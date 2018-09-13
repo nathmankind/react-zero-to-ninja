@@ -17,15 +17,6 @@ class Todo extends Component {
     this.removeItem = this.removeItem.bind(this)
   }
 
-  componentDidMount () {
-    fetch('https://jsonplaceholder.typicode.com/todos')
-      .then(response => response.json())
-      .then(json => {
-        const todos = json.slice(0, 10)
-        this.setState({ items: [...this.state.items, ...todos] })
-      })
-  }
-
   handleChange (e) {
     this.setState({ text: e.target.value, error: false })
   }
