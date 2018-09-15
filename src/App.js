@@ -7,7 +7,7 @@ class App extends Component {
       <div id="root-container">
         <h1 id="__welcome-header">Welcome!</h1>
         <hr />
-        <Todo />
+        <Todo url="https://jsonplaceholder.typicode.com/todos" />
       </div>
     )
   }

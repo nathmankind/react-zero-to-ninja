@@ -1,9 +1,14 @@
 import React, { Component } from 'react'
 import TodoList from '../components/TodoList'
+import PropTypes from 'prop-types'
 import './todo.scss'
 
 class Todo extends Component {
-  constructor (props) {
+  static propTypes = {
+    url: PropTypes.string.isRequired
+  }
+
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -17,11 +22,22 @@ class Todo extends Component {
     this.removeItem = this.removeItem.bind(this)
   }
 
-  handleChange (e) {
+  componentDidMount() {
+    fetch(this.props.url)
+      .then(response => response.json())
+      .then(json => {
+        const todos = json.slice(0, 10)
+        this.setState({
+          items: [...this.state.items, ...todos]
+        })
+      })
+  }
+
+  handleChange(e) {
     this.setState({ text: e.target.value, error: false })
   }
 
-  handleSubmit (e) {
+  handleSubmit(e) {
     e.preventDefault()
 
     if (this.state.text.trim().length === 0) {
@@ -39,13 +55,13 @@ class Todo extends Component {
     }
   }
 
-  removeItem (todo) {
+  removeItem(todo) {
     const todoItems = this.state.items.filter(item => item.id !== todo.id)
 
     this.setState({ items: todoItems })
   }
 
-  render () {
+  render() {
     return (
       <div id="todo-container-wrappper">
         <form onSubmit={this.handleSubmit} id="todo-form">
